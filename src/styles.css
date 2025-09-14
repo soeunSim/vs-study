@@ -14,7 +14,6 @@
 .area-section03 {
   width:100%;
   height:100vh;
-  padding: 30px 0px;
 }
 
 /* main */
@@ -32,17 +31,35 @@
 
 .area-section02 {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background:lightblue;
-  overflow: hidden;
-}
-  .box-scroll {
-    position: relative;
-    width: 500px;
-    height: 300vh;
+    overflow: hidden;
   }
+  .box-scroll {
+  position: relative;
+  width: 500px;
+  height: 100vh;
+  background: blue;
+  color: #fff;
+  text-align: center;
+  font-size: 2rem;
+    }
+    .item{
+      width: 100%;
+      height: 200px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: pink;
+      transform: translateY(100%);
+    }
 
+    .area-section02.--active .item {
+      transform: translateY(0);
+    }
 
 .area-section03 {
   background:yellowgreen;
