@@ -1,7 +1,8 @@
 // ⭐ MockData
 const imgData = [
-  { imgUrl: "https://picsum.photos/400/300?1", alt: "img1" },
-  { imgUrl: "https://picsum.photos/400/300?2", alt: "img2" },
+  { imgUrl: "https://images.mypetlife.co.kr/content/uploads/2023/04/18140421/AdobeStock_212879665-1024x670.jpeg", alt: "img1" },
+  { imgUrl: "https://cdn.imweb.me/upload/S201910012ff964777e0e3/62f9a36ea3cea.jpg", alt: "img2" },
+  { imgUrl: "https://newsimg-hams.hankookilbo.com/2024/06/25/9b490f29-4415-43bb-bdf8-b77c3ca67413.jpg", alt: "img3" },
 ];
 const btnDirectionData = [
   { direction : "이전", className: "prev"},
@@ -60,7 +61,7 @@ function createSlideDirectionBtn () {
 // 슬라이드 네비게이터 만드는 함수
 function createSlideNavigator() {
   const navigatorBox = document.createElement("div");
-  navigatorBox.classList.add(".js-navigator");
+  navigatorBox.classList.add("js-navigator");
   areaSlide.appendChild(navigatorBox);
 
   for(let i = 0; i < imgData.length; i++) {
@@ -72,6 +73,7 @@ function createSlideNavigator() {
     navigatorBox.appendChild(newNavBtn);
   }
 }
+
 
 
 // ⭐ 실행

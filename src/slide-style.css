@@ -1,0 +1,40 @@
+.area-slide {
+  position: relative;
+  }
+  .js-box{
+    position: relative;
+    width:100%;
+    height: 100vh;
+    overflow: hidden;
+    }
+    .js-item{
+      width:100%;
+      height: 100vh;
+    }
+    img {
+      width: 100%;
+      height:100%;
+      object-fit: cover;
+    }
+  .js-btn-box {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+  }
+  .js-navigator {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    width: 100%;
+    z-index: 1;
+  }
+    .js-navigator button{
+      padding:0 4px;
+    }
