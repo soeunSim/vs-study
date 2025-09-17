@@ -14,6 +14,7 @@ const dataLength = imgData.length;
 let currentIndex = 0;
 let prevIndex = convertIndexLimit(currentIndex - 1);
 let nextIndex = convertIndexLimit(currentIndex + 1);
+let autoInterval = null;
 
 // 슬라이드 박스, 이미지 만드는 함수
 function createSlideBox () {
@@ -43,7 +44,7 @@ function createSlideBox () {
 }
 
 // 슬라이드 방향 버튼 만드는 함수
-function createSlideDirectionBtn () {
+function createSlideMoveBtn () {
   // 슬라이드 버튼 박스
   const areaBtnBox = document.createElement("div");
   areaBtnBox.classList.add("js-btn-box");
@@ -56,7 +57,7 @@ function createSlideDirectionBtn () {
     newBtn.classList.add(className);
     newBtn.textContent = direction;
     newBtn.type = "button";
-    newBtn.addEventListener('click', () => clickSlideDirectionBtn(className));
+    newBtn.addEventListener('click', () => slideBtnMoveEvent(className));
     areaBtnBox.appendChild(newBtn);
   }
 }
@@ -77,13 +78,13 @@ function createSlideNavigator() {
 
     newNavBtn.addEventListener('click', (event) => {
       const index = parseInt(event.currentTarget.dataset.index);
-      clickSlideNavigator(index);
+      slideNavigatorEvent(index);
     });
   }
 }
 
 // 슬라이드 네비게이터 click 시 해당 index로 이동하는 이벤트
-function clickSlideNavigator(index) {
+function slideNavigatorEvent(index) {
   const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
 
   if (isContainsAnimation !== null && index !== currentIndex) {
@@ -93,7 +94,7 @@ function clickSlideNavigator(index) {
     currentIndex = index;
     nextIndex = currentIndex + 1 ;
 
-    setSlideDirectionClass();
+    setSlideMoveClass();
 
     setTimeout(() => {
       // 애니메이션 제거
@@ -102,7 +103,7 @@ function clickSlideNavigator(index) {
       prevIndex = convertIndexLimit(currentIndex - 1);
       nextIndex = convertIndexLimit(currentIndex + 1);
 
-      setSlideDirectionClass();
+      setSlideMoveClass();
 
       autoSlide();
     }, 500)
@@ -123,7 +124,7 @@ function convertIndexLimit(index) {
 }
 
 // 인덱스에 따라 방향 class 를 부여하는 함수
-function setSlideDirectionClass() {
+function setSlideMoveClass() {
   const slideItemList = areaSlide.querySelectorAll('.js-item'); 
   
   if (slideItemList !== null) {
@@ -144,7 +145,7 @@ function setSlideDirectionClass() {
 }
 
 // 버튼 방향에 따라 슬라이드를 이동하는 이벤트
-function clickSlideDirectionBtn(direction) {
+function slideBtnMoveEvent(direction) {
   const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
   const targetIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
 
@@ -165,7 +166,7 @@ function clickSlideDirectionBtn(direction) {
       prevIndex = -1;
     }
 
-    setSlideDirectionClass();
+    setSlideMoveClass();
 
     setTimeout(() => {
       // 애니메이션 종료
@@ -174,7 +175,7 @@ function clickSlideDirectionBtn(direction) {
       nextIndex = convertIndexLimit(currentIndex + 1);
       prevIndex = convertIndexLimit(currentIndex - 1);
 
-      setSlideDirectionClass();
+      setSlideMoveClass();
 
       autoSlide();
     }, 500);
@@ -184,10 +185,13 @@ function clickSlideDirectionBtn(direction) {
 
 // 슬라이드 자동 재생 함수 
 function autoSlide() {
-  
+  if (autoInterval !== null) {
+    clearInterval(autoInterval);
+  }
+
   // 3초 뒤 현재 인덱스가 + 1 된다.
-  setInterval(() => {
-      clickSlideDirectionBtn('next');
+  autoInterval = setInterval(() => {
+      slideBtnMoveEvent('next');
   }, 3000);
 }
 
@@ -198,12 +202,12 @@ window.onload = () => {
   // 슬라이드 이미지 생성 함수
   createSlideBox();
   // 슬라이드 이동방향 버튼 생성 함수
-  createSlideDirectionBtn();
+  createSlideMoveBtn();
   // 슬라이드 네비게이터 생성 함수
   createSlideNavigator();
 
   // 슬라이드 animation class 생성 함수(초기실행)
-  setSlideDirectionClass();
+  setSlideMoveClass();
 
   // 슬라이드 자동 재생 함수(초기실행)
   autoSlide();
