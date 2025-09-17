@@ -6,11 +6,14 @@
     width:100%;
     height: 100vh;
     overflow: hidden;
-    }
-    .js-item{
-      width:100%;
-      height: 100vh;
-    }
+      }
+      .js-box.--transiton .js-item{
+        transition: left 0.5s ease-in-out;
+      }
+      .js-item{
+        width:100%;
+        height: 100vh;
+      }
     img {
       width: 100%;
       height:100%;

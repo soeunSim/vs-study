@@ -108,6 +108,7 @@ function clickSlideDirectionBtn(direction) {
 }
 
 
+
 // ⭐ 실행
 window.onload = () => {
   // 슬라이드 이미지 생성 함수
