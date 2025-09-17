@@ -11,6 +11,9 @@ const btnDirectionData = [
 
 const areaSlide = document.querySelector('.area-slide');
 const dataLength = imgData.length;
+let currentIndex = 0;
+let prevIndex = convertIndexLimit(currentIndex - 1);
+let nextIndex = convertIndexLimit(currentIndex + 1);
 
 // 슬라이드 박스, 이미지 만드는 함수
 function createSlideBox () {
@@ -53,7 +56,7 @@ function createSlideDirectionBtn () {
     newBtn.classList.add(className);
     newBtn.textContent = direction;
     newBtn.type = "button";
-
+    newBtn.addEventListener('click', () => clickSlideDirectionBtn(className));
     areaBtnBox.appendChild(newBtn);
   }
 }
@@ -74,6 +77,35 @@ function createSlideNavigator() {
   }
 }
 
+
+// 슬라이드 인덱스 넘지 않도록 제어하는 함수
+function convertIndexLimit(index) {
+  const last = imgData.length - 1;
+  if (index > last) {
+    index = 0;
+  }
+  if (index < 0) {
+    index = last;
+  }
+
+  return index;
+}
+
+// 버튼 방향에 따라 슬라이드를 이동하는 함수
+function clickSlideDirectionBtn(direction) {
+  const targetIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+  
+  if (direction === 'next') {
+    currentIndex = convertIndexLimit(targetIndex );
+    prevIndex = convertIndexLimit(targetIndex - 1 ); 
+
+  } else if (direction === 'prev') {
+    currentIndex = convertIndexLimit(targetIndex);
+    nextIndex = convertIndexLimit(targetIndex + 1);
+    prevIndex = -1;
+  }
+  //console.log(currentIndex);
+}
 
 
 // ⭐ 실행
