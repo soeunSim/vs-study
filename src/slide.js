@@ -74,9 +74,38 @@ function createSlideNavigator() {
     newNavBtn.type = "button";
 
     navigatorBox.appendChild(newNavBtn);
+
+    newNavBtn.addEventListener('click', (event) => {
+      const index = parseInt(event.currentTarget.dataset.index);
+      clickSlideNavigator(index);
+    });
   }
 }
 
+//
+function clickSlideNavigator(index) {
+  const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
+
+  if (isContainsAnimation !== null && index !== currentIndex) {
+    // 애니메이션 시작
+    areaSlide.firstElementChild.classList.add('--transition');
+    prevIndex = currentIndex;
+    currentIndex = index;
+    nextIndex = currentIndex + 1 ;
+
+    setSlideDirectionClass();
+
+    setTimeout(() => {
+      // 애니메이션 시작
+      areaSlide.firstElementChild.classList.remove('--transition');
+
+      prevIndex = convertIndexLimit(currentIndex - 1);
+      nextIndex = convertIndexLimit(currentIndex + 1);
+
+      setSlideDirectionClass();
+    }, 500)
+  }
+}
 
 // 슬라이드 인덱스 넘지 않도록 제어하는 함수
 function convertIndexLimit(index) {
@@ -97,7 +126,6 @@ function setSlideDirectionClass() {
   
   if (slideItemList !== null) {
     Array.from(slideItemList).forEach((item, index) => {
-      console.log(item);
       item.classList.remove('--active', '--prev', '--next');
 
       if (currentIndex === index) {
@@ -115,6 +143,7 @@ function setSlideDirectionClass() {
 
 // 버튼 방향에 따라 슬라이드를 이동하는 함수
 function clickSlideDirectionBtn(direction) {
+
   const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
   const targetIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
 
@@ -149,7 +178,6 @@ function clickSlideDirectionBtn(direction) {
   }
 
 }
-
 
 
 // ⭐ 실행
