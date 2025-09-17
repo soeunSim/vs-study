@@ -91,20 +91,63 @@ function convertIndexLimit(index) {
   return index;
 }
 
+// 인덱스에 따라 방향 class 를 부여하는 함수
+function setSlideDirectionClass() {
+  const slideItemList = areaSlide.querySelectorAll('.js-item'); 
+  
+  if (slideItemList !== null) {
+    Array.from(slideItemList).forEach((item, index) => {
+      console.log(item);
+      item.classList.remove('--active', '--prev', '--next');
+
+      if (currentIndex === index) {
+        item.classList.add('--active');
+      }
+      if (prevIndex === index) {
+        item.classList.add('--prev');
+      }
+      if (nextIndex === index) {
+        item.classList.add('--next');
+      }      
+    });
+  }
+}
+
 // 버튼 방향에 따라 슬라이드를 이동하는 함수
 function clickSlideDirectionBtn(direction) {
+  const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
   const targetIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
-  
-  if (direction === 'next') {
-    currentIndex = convertIndexLimit(targetIndex );
-    prevIndex = convertIndexLimit(targetIndex - 1 ); 
 
-  } else if (direction === 'prev') {
-    currentIndex = convertIndexLimit(targetIndex);
-    nextIndex = convertIndexLimit(targetIndex + 1);
-    prevIndex = -1;
+ // 애니메이션이 없다면 
+  if (isContainsAnimation === false) {
+    // 애니메이션 시작
+    areaSlide.firstElementChild.classList.add('--transition');
+    
+    // 버튼 방향에 따른 frame 조정
+    if (direction === 'next') {
+      currentIndex = convertIndexLimit(targetIndex );
+      prevIndex = convertIndexLimit(targetIndex - 1 ); 
+      nextIndex = -1;
+
+    } else if (direction === 'prev') {
+      currentIndex = convertIndexLimit(targetIndex);
+      nextIndex = convertIndexLimit(targetIndex + 1);
+      prevIndex = -1;
+    }
+
+    setSlideDirectionClass();
+
+    setTimeout(() => {
+      // 애니메이션 종료
+      areaSlide.firstElementChild.classList.remove('--transition');
+
+      nextIndex = convertIndexLimit(currentIndex + 1);
+      prevIndex = convertIndexLimit(currentIndex - 1);
+
+      setSlideDirectionClass();
+    }, 500);
   }
-  //console.log(currentIndex);
+
 }
 
 
@@ -118,4 +161,6 @@ window.onload = () => {
   // 슬라이드 네비게이터 생성 함수
   createSlideNavigator();
 
+  // 슬라이드 animation class 생성 함수(초기실행)
+  setSlideDirectionClass();
 };
