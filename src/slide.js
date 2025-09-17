@@ -82,7 +82,7 @@ function createSlideNavigator() {
   }
 }
 
-//
+// 슬라이드 네비게이터 click 시 해당 index로 이동하는 이벤트
 function clickSlideNavigator(index) {
   const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
 
@@ -96,13 +96,15 @@ function clickSlideNavigator(index) {
     setSlideDirectionClass();
 
     setTimeout(() => {
-      // 애니메이션 시작
+      // 애니메이션 제거
       areaSlide.firstElementChild.classList.remove('--transition');
 
       prevIndex = convertIndexLimit(currentIndex - 1);
       nextIndex = convertIndexLimit(currentIndex + 1);
 
       setSlideDirectionClass();
+
+      autoSlide();
     }, 500)
   }
 }
@@ -141,9 +143,8 @@ function setSlideDirectionClass() {
   }
 }
 
-// 버튼 방향에 따라 슬라이드를 이동하는 함수
+// 버튼 방향에 따라 슬라이드를 이동하는 이벤트
 function clickSlideDirectionBtn(direction) {
-
   const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
   const targetIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
 
@@ -174,14 +175,26 @@ function clickSlideDirectionBtn(direction) {
       prevIndex = convertIndexLimit(currentIndex - 1);
 
       setSlideDirectionClass();
+
+      autoSlide();
     }, 500);
   }
 
 }
 
+// 슬라이드 자동 재생 함수 
+function autoSlide() {
+  
+  // 3초 뒤 현재 인덱스가 + 1 된다.
+  setInterval(() => {
+      clickSlideDirectionBtn('next');
+  }, 3000);
+}
 
 // ⭐ 실행
 window.onload = () => {
+  // init();
+
   // 슬라이드 이미지 생성 함수
   createSlideBox();
   // 슬라이드 이동방향 버튼 생성 함수
@@ -191,4 +204,7 @@ window.onload = () => {
 
   // 슬라이드 animation class 생성 함수(초기실행)
   setSlideDirectionClass();
+
+  // 슬라이드 자동 재생 함수(초기실행)
+  autoSlide();
 };
