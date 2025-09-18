@@ -15,32 +15,32 @@ let currentIndex = 0;
 let prevIndex = convertIndexLimit(currentIndex - 1);
 let nextIndex = convertIndexLimit(currentIndex + 1);
 let autoInterval = null;
+let slideItem = [];
 
 // 슬라이드 박스, 이미지 만드는 함수
 function createSlideBox () {
   // 슬라이드 영역 박스
   const areaSlideBox = document.createElement("div");
-  areaSlideBox.classList.add("js-box");
-  areaSlide.appendChild(areaSlideBox);
 
-  // 슬라이드 박스 안에 아이템 넣기
+  areaSlideBox.classList.add("js-box");
+
+  // box 안에 item 넣기
   for (let i = 0; i < dataLength; i++) {
     const { imgUrl, alt } = imgData[i];
-
-    // item
     const newSlideItem = document.createElement("div");
+    const newSlideItemImg = document.createElement("img");
+
     newSlideItem.classList.add("js-item");
     newSlideItem.dataset.index = i;
-
-    // img
-    const newSlideItemImg = document.createElement("img");
     newSlideItemImg.src = imgUrl; 
     newSlideItemImg.alt = alt;   
 
-    // item 안에 img 넣기
-    areaSlideBox.appendChild(newSlideItem);
     newSlideItem.appendChild(newSlideItemImg);
+    slideItem.push(newSlideItem);
   }
+
+  areaSlideBox.append(...slideItem);
+  areaSlide.appendChild(areaSlideBox);
 }
 
 // 슬라이드 방향 버튼 만드는 함수
@@ -52,8 +52,8 @@ function createSlideMoveBtn () {
 
   for(let i = 0; i<btnDirectionData.length; i++) {
     const { direction, className } = btnDirectionData[i];
-    // 슬라이드 방향 버튼
     const newBtn = document.createElement("button");
+
     newBtn.classList.add(className);
     newBtn.textContent = direction;
     newBtn.type = "button";
@@ -87,12 +87,14 @@ function createSlideNavigator() {
 function slideNavigatorEvent(index) {
   const isContainsAnimation = areaSlide.firstElementChild.classList.contains('--transition');
 
-  if (isContainsAnimation !== null && index !== currentIndex) {
+  if (isContainsAnimation === false && index !== currentIndex) {
     // 애니메이션 시작
     areaSlide.firstElementChild.classList.add('--transition');
+
     prevIndex = currentIndex;
     currentIndex = index;
-    nextIndex = currentIndex + 1 ;
+    nextIndex = index + 1;
+
 
     setSlideMoveClass();
 
@@ -125,10 +127,8 @@ function convertIndexLimit(index) {
 
 // 인덱스에 따라 방향 class 를 부여하는 함수
 function setSlideMoveClass() {
-  const slideItemList = areaSlide.querySelectorAll('.js-item'); 
-  
-  if (slideItemList !== null) {
-    Array.from(slideItemList).forEach((item, index) => {
+  if (slideItem.length !== 0) {
+    slideItem.forEach((item, index) => {
       item.classList.remove('--active', '--prev', '--next');
 
       if (currentIndex === index) {
