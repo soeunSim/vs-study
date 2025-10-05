@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.box-accordion{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.box-title {
+  display: flex;
+  justify-content: space-between;
+}
+.content {
+  display:none;
+}
+.content.open{
+  display:block;
+}

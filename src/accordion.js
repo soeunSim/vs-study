@@ -15,7 +15,8 @@ class Accordion {
     // this.#$wrap.innerHTML = ""; //초기화
 
     const boxAccordion = document.createElement("div");
-
+    boxAccordion.classList.add("box-accordion");
+    
     this.#data.forEach((item, index) => {
       const boxItem = document.createElement("div");
       const boxTitle = document.createElement("div");
